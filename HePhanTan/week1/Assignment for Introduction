@@ -1,0 +1,36 @@
+Câu hỏi 1: Vai trò của Middleware trong Hệ Phân Tán là gì?
+- Giúp cải thiện tính trong suốt của hệ thống, giúp cho việc cấu hình là duy nhất.
+
+Câu hỏi 2: Tại sao nói Middleware thừa kế các ưu điểm của cả DOS và NOS?
+-Middleware thừa kế tính trong suốt của DOS và tính mở của NOS => thừa kế ưu điểm của cả 2.
+
+Câu hỏi 3: Giải thích tính trong suốt của HPT, đưa ra các ví dụ cho các kiểu trong suốt khác nhau.
+- Tính trong suốt của HPT: hệ thống là duy nhất với người sủ dụng
+- Các kiểu trong suốt :
++Trong suốt truy nhập :Che giấu sự khác nhau trong biểu diễn dữ liệu và cách thức truy cập tài nguyên.
++ Trong suốt địa điểm : Người dùng không nhận biết được vị trí của đối tượng. Đối tượng được định vị và chỉ dẫn theo tên lôgic trong một hệ thống thống nhất.
++ Trong suốt di trú :che giấu tài nguyên chuyển đến địa điểm khác
++ Chuyển địa điêm : Che giấu việc tài nguyên chuyển đến địa điểm khác trong khi đang được sử dụng
++ sao lưu : Che giấu việc dữ liệu được cung cấp từ nhiều bản sao khác nhau
++ tương tranh : Che giấu việc tài nguyên được truy cập đồng thời bởi nhiều NSD
++ Thử lỗi : Che giấu lỗi và quá trình phục hồi của tài nguyên
++ Bền vững : Che giấu việc tài nguyên/dữ liệu được lưu trữ bền vững (disk) hoặc không (RAM)
+VD: Sao lưu: facebook có các trung tâm dữ liệu đặt tại các khu vực khác nhau trên thế giới để sao cho người dùng ở các khu vực có thể truy cập dữ liệu nhanh nhất có thể nên từ 1 bộ dữ liệu gốc, facebook sao lưu nó ra các bản khác nhau và cung cấp cho các trung tâm dữ liệu của họ trên thế giới.
+
+Câu 4: Tại sao đôi khi rất khó để có thể che giấu sự xuất hiện lỗi và sự phục hồi lỗi trong HPT?
+- Bởi như thế sẽ làm giảm hiệu năng hệ thống.
+
+Câu 5: Tại sao không phải lúc nào cũng là tốt khi giữ độ trong suốt ở mức cao nhất có thể?
+- Tuy nhiên không phải lúc nào cũng nên thể hiện tính trong suốt. VD nhiều ứng dụng Internet lặp lại việc truy cập máy chủ sau 1 khoảng thời gian nhất định trước khi ngắt, nhưng như vậy thì sẽ làm tốc độ chậm đi. Trong một số tình huống, tính trong suốt không hẳn là giải phát tốt, cụ thể là như trong các tình huống liên quan đến vị trí và hoàn cảnh đặc biệt.
+
+Câu 6: Thế nào là một HPT mở? Các lợi ích của tính mở đem lại là gì?
+- HPT mở là HPT có khả năng kết nối thêm mở rộng máy tính tài nguyên, mà không bị ảnh hưởng bởi kiến trúc máy tính.
+- Lợi ích: 
+	+ Cho phép các thành phần được sản xuất từ nhiều nhà sản xuất khác nhau.
+	+ Khả chuyển, mềm dẻo, không tạo nên tính đặc quyền, dễ nâng cấp hệ thống.
+
+Câu 7: Những kỹ thuật nào được sử dụng để mở rộng hệ thống?
+- Phân tán dữ liệu.
+- Sao lưu.
+- Sử dụng ức chế bộ đệm.
+
