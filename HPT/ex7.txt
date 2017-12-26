@@ -1,0 +1,118 @@
+
+
+Câu hỏi 1: Tại sao phải thực hiện sao lưu dữ liệu? 
+
+
+Câu 1: Cần thực hiện sao lưu dữ liệu vì:
+- Tăng độ tin cậy (tính sẵn sàng) của hệ thống: Khi 1 server đang hoạt động bị hỏng, server khác sẽ thay thế và cung ứng dịch vụ
+- Tăng hiệu năng: Việc đưa dữ liệu về nhiều bản sao với vị trí gần người dùng hơn giúp hệ thống hoạt động hiệu quả hơn
+- Khả năng co giãn: Đáp ứng được việc số lượng nhiều người sử dụng tăng cao => tăng số lượng bản sao tương ứng.
+
+-----------------------------------------------------------------------------------------------------------------------
+
+Câu hỏi 2: 1. Xét một kho dữ liệu phân tán với 5 tiến trình độc lập P1, P2, P3, P4, và P5. Mỗi tiến trình chỉ tác động lên được bản sao cục bộ riêng của mình. Các bản sao cục bộ kết nối thành kho dữ liệu phân tán. Xét các tiến trình chỉ tương tác (ghi, đọc) lên thành phần dữ liệu x ở bản sao cục bộ riêng của mình. Hoạt động của mô hình ở các thời điểm t tương ứng, các thao tác được thực hiện như sau:
+t1: P1 ghi giá trị a
+t2: P3 đọc giá trị a
+t3: P2 ghi giá trị b và P3 ghi giá trị c
+t4: P5 đọc được giá trị b
+t5: P4 và P5 đều đọc được giá trị a
+t6: P4 đọc được giá trị b
+t7: P4 và P5 đọc được giá trị c
+(biết rằng ti < ti+1 với i=(1..6)
+Câu hỏi: 
+a) Mô hình trên có thoả mãn thống nhất nhân quả không? Giải thích.
+b) Mô hình trên có thoả mãn thống nhất tuần tự không? Giải thích.
+
+Câu 2:
+Mô hình trên thoả mãn thống nhất nhân quả vì: chỉ có quan hệ đọc a - ghi c là có quan hệ nhân quả. Tại các tiến trình luôn đảm bảo thứ tự nhân quả này.
+
+Mô hình trên thoả mãn thống nhất tuần tự vì:
+- Tại P3 thứ tự là đọc a - ghi c.
+- Tại P4 thứ tự là đọc a - đọc b - đọc c
+- Tại P5 thứ tự là đọc b - đọc a - đọc c.
+=> Không thống nhất thứ tự đọc a, b, c
+
+----------------------------------------------------------------------------------------------------------------------
+Câu hỏi 3: Conit là gì? Nếu đặt kích thước Conit quá lớn thì sẽ gây ra vấn đề gì? Tương tự với kích thước Conit quá nhỏ?
+
+Câu 3:
+- Conit là: Tập các đơn vị dữ liệu có tính nhất quán
+- Nếu kích thước conit quá lớn: các bản sao sẽ rơi vào trạng thái không thống nhất
+- Nếu kích thước conit quá nhỏ: Số lượng conit nhiều khiến quản lý phức tạp
+
+----------------------------------------------------------------------------------------------------------------------
+
+Câu hỏi 4: Tại sao thống nhất nhân quả có tính thống nhất yếu hơn thống nhất tuần tự? Cho ví dụ để làm rõ điều này.
+
+Câu 4:
+- Thống nhất nhân quả có tính thống nhất yếu hơn thống nhất tuần tự vì: Những sự kiện có quan hệ nhân quả mới cần đảm bảo thứ tự, còn những sự kiện không có tính nhân quả thì không cần đảm bảo
+- vd:
++ P1: Ghi a vào x
++ P2: Đọc x vào a, rồi ghi b vào x
++ P3: Đọc x vào b, rồi đọc x và`o a
++ P4: Đọc x vào a, rồi đọc x vào b
+Ở đây, tại tiến trình P2, việc ghi b vào x phải thực hiện sau việc đọc x vào a, mà ở đây việc đọc x vào a phải thực hiện sau việc ghi a vào x. Do đó sự kiện ghi a vào x và sự kiện ghi b vào x có tính nhân quả.
+Còn sự kiện ở P3, P4 thì không có tính nhân quả nên không cần đảm bảo thứ tự
+
+----------------------------------------------------------------------------------------------------------------------
+
+Câu hỏi 5: Vấn đề của mô hình Eventual Consistency là gì? Từ đó đưa ra định nghĩa mô hình thống nhất hướng client.
+
+Câu 5:
+- Vấn đề của mô hình Eventual Consistency là: Khi 1 người cập nhật trên bảo sao i và bằng cách nào đó, trong 1 khoảng thời gian đủ ngắn, người đó thao tác với bản sao j # i. Khi đó dữ liệu trên bản sao i chưa kịp cập nhật tới bản sao j.
+- Mô hình thống nhất hướng client là mô hình cung ứng đảm bảo thống nhất cho các truy cập của 1 tiến trình đơn vào kho dữ liệu
+
+----------------------------------------------------------------------------------------------------------------------
+
+Câu hỏi 6: Một ngân hàng quyết định sử dụng dịch vụ CDN (Content Delivery Network) của một công ty mới khởi nghiệp cung cấp. 
+a) Với bước đặt máy chủ, công ty chọn thuật toán chọn đặt các máy chủ bản sao (replica) dựa trên khoảng cách với các chi nhánh ngân hàng. Hãy đề xuất thuật toán chọn đặt k replica với N vị trí có thể đặt máy chủ. Biết rằng đây là thuật toán dựa trên khoảng cách và công ty biết trước các vị trí các chi nhánh ngân hàng.
+b) Với thuật toán để quản lý nội dung dữ liệu ở các replica, công ty quyết định chọn thuật toán dựa trên bản sao kích hoạt bởi server (server-initiated replicas). Hãy mô tả cơ chế đó với việc xem xét một đơn vị dữ liệu X là thông tin tài khoản một người dùng cùng với 2 ngưỡng là del(X) và rep(X). 
+c) Liên quan đến giao thức đảm bảo thống nhất, công ty quyết định chọn giao thức ghi trên các bản sao (replicated write), tuy nhiên công ty băn khoăn giữa giao thức sao lưu tích cực và giao thức sao lưu dựa trên túc số. Bạn hãy giúp công ty lựa chọn giao thức phù hợp bằng việc so sánh 2 giao thức trên với việc chỉ ra ưu nhược điểm của chúng.
+
+Câu 6:
+a) Có 2 đề xuất:
+- Đề xuất 1: Đặt K máy chủ tại K vị trí sao cho khoảng cách trung bình từ N/K chi nhánh tới 1 máy chủ gần đó nhất là như nhau hoặc xấp xỉ bằng nhau.
+- Đề xuất 2: Tương tự như đề xuất 1, tuy nhiên bổ sung thêm tiêu chí về số lượng truy cập từ các chi nhánh. Sẽ đặt nhiều máy chủ gần vị trí cụm chi nhánh nào có nhiều lượng truy cập hơn.
+
+b) Nếu số lượng truy cập X ở bản sao mà < del(X) thì xóa X tại bản sao đó.
+Nếu số lượng truy cập X ở bản sao mà > req(X) thì server sẽ kích hoạt và sao chép X sang 1 server có vị trí phù hợp với client
+
+c) So sánh:
+* Sao lưu tích cực
+- Ưu điểm:
+ + Đảm bảo tất cả các bản sao luôn có dữ liệu mới nhất.
+ + Việc truy cập tới bất kì bản sao nào là giống nhau => tiện lợi
+- Nhược điểm: 
+ + Mỗi tiến trình phải chịu trách nhiệm phổ biến => Nếu sự thay đổi là nhiều dẫn tới quá tải, băng thông bị cạn kiệt
+ + Cần cơ chế trật tự toàn cục
+
+* Sao lưu dựa trên túc số:
+- Ưu điểm:
+ + Hạn chế tình trạng dữ liệu được cập nhật tại các bản sao nhưng lại không được đọc.
+ + Tiết kiệm chi phí trong quá trình cập nhật.
+- Nhược điểm:
+ + Khi đọc dữ liệu, có thể sẽ đọc phải dữ liệu cũ.
+ + Client phải kiểm soát được dữ liệu là mới hay cũ và qua đó phải đọc thêm ở bản sao khác nếu dữ liệu đó là cũ.
+
+
+=> Nếu dữ liệu của công ty là thường xuyên thay đổi, nên dùng sao lưu túc số. Ngược lại thì dùng sao lưu tích cực
+
+----------------------------------------------------------------------------------------------------------------------
+
+Câu hỏi 7: Liên quan đến các mô hình thống nhất hướng dữ liệu và các mô hình thống nhất hướng người dùng:
+a. Giải thích vắn tắt ý tưởng của 2 loại mô hình thống nhất hướng dữ liệu trên.
+b. Một công ty startup mới mở chuyên triển khai thương mại hóa dịch vụ CDN (Content Delivery Network) cho 2 loại hình dịch vụ là thư điện tử và WWW. Để đảm bảo thống nhất dữ liệu cho 2 loại dịch vụ đó thì tầng middleware sẽ áp dụng mô hình thống nhất dữ liệu nào (ở câu a) cho mỗi loại dịch vụ trên? Giải thích.
+c. Công ty đó triển khai 3000 server bản sao vật lý và chọn hình thức sao lưu dữ liệu dựa trên túc số (quorum) với Nw = 1600 và Nr = 1100. Vậy hệ thống đó sẽ tránh được xung đột đọc-ghi và xung đột ghi-ghi hay không? Giải thích.
+
+Câu 7:
+a) Ý tưởng 2 mô hình
+* Thống nhất hướng dữ liệu: Luôn đảm bảo dữ liệu được thống nhất giữa mọi truy cập của client. 
+* Thống nhất hướng client: Luôn đảm bảo cho các truy cập của một client đơn vào kho dữ liệu. Không đảm bảo cho các truy cập cạnh tranh của các tiến trình khác. 
+
+b) Hệ thống WWW thì nên sử dụng mô hình thống nhất hướng client vì ở đó việc ghi rất ít xảy ra, việc đọc thì thường xuyên xảy ra.
+Hệ thống email thì nên sử dụng mô hình thống nhất hướng dữ liệu vì các thao tác đọc - ghi thường xuyên xảy ra.
+
+c) Ta có N = 3000, Nw = 1600, Nr = 1100.
+Để tránh xung đột đọc-ghi thì cần Nw + Nr > N mà 1600 + 1100 > 3000 => Thỏa mãn
+Để tránh xung đột ghi-ghi thì cần Nw > N/2 mà 1100 < 3000/2 = 1500 => Không thỏa mãn
+
